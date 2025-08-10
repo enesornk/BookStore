@@ -1,0 +1,216 @@
+﻿@{
+    ViewBag.Title = "Anasayfa";
+}
+
+<!-- Hero Section -->
+<div class="hero-section bg-primary text-white py-5 mb-5 rounded">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h1 class="display-4 fw-bold mb-3">
+                <i class="fas fa-book-open me-2"></i>
+                KitapStore'a Hoş Geldiniz!
+            </h1>
+            <p class="lead mb-4">Türkiye'nin en kapsamlı online kitap mağazasında binlerce kitap arasından seçim yapın. Ücretsiz kargo ve hızlı teslimat!</p>
+            <div class="d-flex gap-3">
+                <a asp-controller="Books" asp-action="Index" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-shopping-cart me-2"></i>
+                    Alışverişe Başla
+                </a>
+                <a asp-controller="Categories" asp-action="Index" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-list me-2"></i>
+                    Kategoriler
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6 text-center">
+            <i class="fas fa-book-reader fa-10x opacity-50"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Books Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title">
+                <i class="fas fa-star text-warning me-2"></i>
+                Öne Çıkan Kitaplar
+            </h2>
+            <a asp-controller="Books" asp-action="Index" class="btn btn-outline-primary">
+                Tümünü Gör <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+        </div>
+        
+        <div class="row">
+            @if (ViewBag.FeaturedBooks != null)
+            {
+                foreach (var book in ViewBag.FeaturedBooks)
+                {
+                    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                        <div class="product-card">
+                            <div class="product-image">
+                                @if (!string.IsNullOrEmpty(book.ImageUrl))
+                                {
+                                    <img src="@book.ImageUrl" alt="@book.Title" />
+                                }
+                                else
+                                {
+                                    <div class="d-flex align-items-center justify-content-center bg-light" style="height: 280px;">
+                                        <i class="fas fa-book fa-3x text-muted"></i>
+                                    </div>
+                                }
+                                
+                                <div class="product-badges">
+                                    <span class="product-badge">Öne Çıkan</span>
+                                </div>
+                                
+                                <div class="product-actions">
+                                    @if (Context.Session.GetString("UserId") != null)
+                                    {
+                                        <form asp-controller="Favorites" asp-action="AddToFavorites" method="post">
+                                            <input type="hidden" name="bookId" value="@book.Id" />
+                                            <button type="submit" class="action-btn btn-favorite" title="Favorilere Ekle">
+                                                <i class="far fa-heart"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                    <button class="action-btn" onclick="quickView(@book.Id)" title="Hızlı Görünüm">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="product-content">
+                                <div class="product-category">@book.Category?.Name</div>
+                                <h3 class="product-title">
+                                    <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">@book.Title</a>
+                                </h3>
+                                <div class="product-author">@book.Author</div>
+                                
+                                <div class="product-price">
+                                    <span class="current-price">₺@book.Price.ToString("F2")</span>
+                                </div>
+                                
+                                <div class="product-buttons">
+                                    <form asp-controller="Cart" asp-action="AddToCart" method="post" style="flex: 1;">
+                                        <input type="hidden" name="bookId" value="@book.Id" />
+                                        <button type="submit" class="btn-primary-custom w-100 btn-add-cart">
+                                            <i class="fas fa-shopping-cart me-1"></i>
+                                            Sepete Ekle
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-book fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">Henüz öne çıkan kitap bulunmuyor.</h4>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Categories Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <h2 class="section-title mb-4">
+            <i class="fas fa-th-large text-primary me-2"></i>
+            Kategoriler
+        </h2>
+        
+        <div class="row">
+            @if (ViewBag.Categories != null)
+            {
+                foreach (var category in ViewBag.Categories)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                        <a asp-controller="Categories" asp-action="Details" asp-route-id="@category.Id" 
+                           class="category-card d-block text-decoration-none">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center py-4">
+                                    <i class="fas fa-book-open fa-2x text-primary mb-3"></i>
+                                    <h5 class="card-title mb-2">@category.Name</h5>
+                                    @if (!string.IsNullOrEmpty(category.Description))
+                                    {
+                                        <p class="card-text text-muted small">@category.Description</p>
+                                    }
+                                    <span class="badge bg-primary">@category.BookCount Kitap</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="row text-center">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="feature-card p-4">
+                    <i class="fas fa-shipping-fast fa-3x text-primary mb-3"></i>
+                    <h5>Ücretsiz Kargo</h5>
+                    <p class="text-muted">150₺ ve üzeri siparişlerde ücretsiz kargo</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="feature-card p-4">
+                    <i class="fas fa-undo-alt fa-3x text-success mb-3"></i>
+                    <h5>Kolay İade</h5>
+                    <p class="text-muted">14 gün içinde koşulsuz iade hakkı</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="feature-card p-4">
+                    <i class="fas fa-credit-card fa-3x text-warning mb-3"></i>
+                    <h5>Güvenli Ödeme</h5>
+                    <p class="text-muted">256-bit SSL ile güvenli ödeme altyapısı</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="feature-card p-4">
+                    <i class="fas fa-headset fa-3x text-info mb-3"></i>
+                    <h5>7/24 Destek</h5>
+                    <p class="text-muted">Her zaman yanınızda müşteri hizmetleri</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+.section-title {
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.category-card:hover .card {
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+</style>

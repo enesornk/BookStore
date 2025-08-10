@@ -1,0 +1,71 @@
+@{
+    ViewData["Title"] = "Admin Paneli";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">@ViewBag.Title</h1>
+            
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Success"]
+                </div>
+            }
+            
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["Error"]
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-book fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Kitap Yönetimi</h5>
+                    <p class="card-text">Kitapları ekle, düzenle ve sil</p>
+                    <a href="@Url.Action("Books", "Admin")" class="btn btn-primary">Kitaplar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-tags fa-3x text-success mb-3"></i>
+                    <h5 class="card-title">Kategori Yönetimi</h5>
+                    <p class="card-text">Kategorileri yönet</p>
+                    <a href="@Url.Action("Categories", "Admin")" class="btn btn-success">Kategoriler</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-shopping-cart fa-3x text-warning mb-3"></i>
+                    <h5 class="card-title">Sipariş Yönetimi</h5>
+                    <p class="card-text">Siparişleri görüntüle</p>
+                    <a href="@Url.Action("Orders", "Admin")" class="btn btn-warning">Siparişler</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-3x text-info mb-3"></i>
+                    <h5 class="card-title">Kullanıcı Yönetimi</h5>
+                    <p class="card-text">Kullanıcıları yönet</p>
+                    <a href="@Url.Action("Users", "Admin")" class="btn btn-info">Kullanıcılar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

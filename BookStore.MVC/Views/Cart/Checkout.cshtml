@@ -1,0 +1,71 @@
+@{
+    ViewBag.Title = "Siparişi Tamamla";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.Title</h1>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>Sipariş Detayları</h5>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.CartItems != null)
+                {
+                    foreach (var item in ViewBag.CartItems)
+                    {
+                        <div class="row mb-3 border-bottom pb-3">
+                            <div class="col-md-6">
+                                <h6>@item.Title</h6>
+                                <p class="text-muted">@item.Author</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p>Adet: @item.Quantity</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p><strong>@((item.Price * item.Quantity).ToString("C"))</strong></p>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Sipariş Özeti</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Toplam Tutar: @ViewBag.TotalAmount.ToString("C")</strong></p>
+                
+                <form asp-action="PlaceOrder" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Ad Soyad</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Telefon</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Adres</label>
+                        <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success w-100">Siparişi Onayla</button>
+                </form>
+                
+                <a asp-action="Index" class="btn btn-outline-primary w-100 mt-2">Sepete Dön</a>
+            </div>
+        </div>
+    </div>
+</div> 

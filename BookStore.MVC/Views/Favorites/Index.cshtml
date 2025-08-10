@@ -1,0 +1,50 @@
+@{
+    ViewBag.Title = "Favorilerim";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.Title</h1>
+</div>
+
+@if (ViewBag.Favorites != null && ViewBag.Favorites.Count > 0)
+{
+    <div class="row mt-4">
+        @foreach (var favorite in ViewBag.Favorites)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(favorite.Book.ImageUrl))
+                    {
+                        <img src="@favorite.Book.ImageUrl" class="card-img-top book-cover-image" alt="@favorite.Book.Title">
+                    }
+                    else
+                    {
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <span class="text-muted">📚</span>
+                        </div>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@favorite.Book.Title</h5>
+                        <p class="card-text">@favorite.Book.Author</p>
+                        <p class="card-text"><small class="text-muted">@favorite.Book.Category?.Name</small></p>
+                        <p class="card-text"><strong>@favorite.Book.Price.ToString("C")</strong></p>
+                        <div class="d-flex justify-content-between">
+                            <a asp-controller="Books" asp-action="Details" asp-route-id="@favorite.Book.Id" class="btn btn-primary">Detaylar</a>
+                            <form asp-action="RemoveFromFavorites" method="post" class="d-inline">
+                                <input type="hidden" name="favoriteId" value="@favorite.Id" />
+                                <button type="submit" class="btn btn-danger">Favorilerden Çıkar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="text-center mt-4">
+        <h3>Henüz favori kitabınız yok</h3>
+        <p>Favori kitaplarınızı görmek için <a asp-controller="Books" asp-action="Index">kitaplarımızı</a> inceleyin.</p>
+    </div>
+} 

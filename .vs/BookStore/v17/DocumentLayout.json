@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\eneso.DESKTOP-IVNDOU7\\OneDrive\\Masa\u00FCst\u00FC\\BookStore\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5DA8B0AF-DF77-4933-A0D8-1F92A8C83001}|BookStore.MVC\\BookStore.MVC.csproj|c:\\users\\eneso.desktop-ivndou7\\onedrive\\masa\u00FCst\u00FC\\bookstore\\bookstore.mvc\\views\\admin\\users.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5DA8B0AF-DF77-4933-A0D8-1F92A8C83001}|BookStore.MVC\\BookStore.MVC.csproj|solutionrelative:bookstore.mvc\\views\\admin\\users.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DA8B0AF-DF77-4933-A0D8-1F92A8C83001}|BookStore.MVC\\BookStore.MVC.csproj|c:\\users\\eneso.desktop-ivndou7\\onedrive\\masa\u00FCst\u00FC\\bookstore\\bookstore.mvc\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5DA8B0AF-DF77-4933-A0D8-1F92A8C83001}|BookStore.MVC\\BookStore.MVC.csproj|solutionrelative:bookstore.mvc\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DA8B0AF-DF77-4933-A0D8-1F92A8C83001}|BookStore.MVC\\BookStore.MVC.csproj|c:\\users\\eneso.desktop-ivndou7\\onedrive\\masa\u00FCst\u00FC\\bookstore\\bookstore.mvc\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA8B0AF-DF77-4933-A0D8-1F92A8C83001}|BookStore.MVC\\BookStore.MVC.csproj|solutionrelative:bookstore.mvc\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Users.cshtml",
+              "DocumentMoniker": "C:\\Users\\eneso.DESKTOP-IVNDOU7\\OneDrive\\Masa\u00FCst\u00FC\\BookStore\\BookStore.MVC\\Views\\Admin\\Users.cshtml",
+              "RelativeDocumentMoniker": "BookStore.MVC\\Views\\Admin\\Users.cshtml",
+              "ToolTip": "C:\\Users\\eneso.DESKTOP-IVNDOU7\\OneDrive\\Masa\u00FCst\u00FC\\BookStore\\BookStore.MVC\\Views\\Admin\\Users.cshtml",
+              "RelativeToolTip": "BookStore.MVC\\Views\\Admin\\Users.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-10T13:28:46.781Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "C:\\Users\\eneso.DESKTOP-IVNDOU7\\OneDrive\\Masa\u00FCst\u00FC\\BookStore\\BookStore.MVC\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "BookStore.MVC\\Controllers\\CartController.cs",
+              "ToolTip": "C:\\Users\\eneso.DESKTOP-IVNDOU7\\OneDrive\\Masa\u00FCst\u00FC\\BookStore\\BookStore.MVC\\Controllers\\CartController.cs",
+              "RelativeToolTip": "BookStore.MVC\\Controllers\\CartController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-10T11:40:34.311Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\eneso.DESKTOP-IVNDOU7\\OneDrive\\Masa\u00FCst\u00FC\\BookStore\\BookStore.MVC\\Views\\Cart\\Index.cshtml",
+              "RelativeDocumentMoniker": "BookStore.MVC\\Views\\Cart\\Index.cshtml",
+              "ToolTip": "C:\\Users\\eneso.DESKTOP-IVNDOU7\\OneDrive\\Masa\u00FCst\u00FC\\BookStore\\BookStore.MVC\\Views\\Cart\\Index.cshtml",
+              "RelativeToolTip": "BookStore.MVC\\Views\\Cart\\Index.cshtml",
+              "ViewState": "AgIAAPcAAAAAAAAAAAAAwAkBAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-10T11:40:17.887Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

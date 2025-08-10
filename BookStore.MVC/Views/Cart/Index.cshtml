@@ -1,0 +1,374 @@
+@{
+    ViewBag.Title = "Sepetim";
+}
+
+<div class="text-center py-4">
+    <h1 class="mb-2">
+        <i class="fas fa-shopping-cart me-2 text-primary"></i>
+        @ViewBag.Title
+    </h1>
+    <p class="text-muted">Sepetinizdeki ürünleri gözden geçirin</p>
+</div>
+
+@if (ViewBag.CartItems != null && ViewBag.CartItems.Count > 0)
+{
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="product-card">
+                <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+                    <h5 class="mb-0">
+                        <i class="fas fa-box me-2"></i>
+                        Sepet Ürünleri (@ViewBag.CartItems.Count adet)
+                    </h5>
+                    <a asp-controller="Books" asp-action="Index" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-plus me-1"></i>Ürün Ekle
+                    </a>
+                </div>
+                <div class="p-3">
+                    @foreach (var item in ViewBag.CartItems)
+                    {
+                        <div class="cart-item-card mb-3">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@item.ImageUrl" alt="@item.Title" class="cart-item-image">
+                                    }
+                                    else
+                                    {
+                                        <div class="cart-item-placeholder">
+                                            <i class="fas fa-book fa-2x text-muted"></i>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-md-5">
+                                    <h6 class="mb-1">@item.Title</h6>
+                                    <p class="text-muted mb-1">@item.Author</p>
+                                    <p class="text-success mb-0">
+                                        <strong>₺@item.Price.ToString("F2")</strong>
+                                    </p>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="quantity-controls">
+                                        <button type="button" class="quantity-btn quantity-minus">-</button>
+                                        <input type="number" value="@item.Quantity" min="1" class="quantity-input" readonly>
+                                        <button type="button" class="quantity-btn quantity-plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    <div class="item-total mb-2">
+                                        <strong>₺@((item.Price * item.Quantity).ToString("F2"))</strong>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm remove-item-btn" 
+                                            data-book-id="@item.BookId" 
+                                            onclick="return confirm('Bu ürünü sepetten çıkarmak istediğinizden emin misiniz?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="product-card sticky-top">
+                <div class="p-3 border-bottom">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calculator me-2"></i>
+                        Sipariş Özeti
+                    </h5>
+                </div>
+                <div class="p-3">
+                    <div class="summary-row">
+                        <span>Ara Toplam:</span>
+                        <span>₺@ViewBag.TotalAmount.ToString("F2")</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Kargo:</span>
+                        <span class="text-success">
+                            @if (ViewBag.TotalAmount >= 150)
+                            {
+                                <small>Ücretsiz</small>
+                            }
+                            else
+                            {
+                                <small>₺9.90</small>
+                            }
+                        </span>
+                    </div>
+                    <hr>
+                    <div class="summary-row total-row">
+                        <strong>Toplam:</strong>
+                        <strong class="text-primary">
+                            ₺@((ViewBag.TotalAmount >= 150 ? ViewBag.TotalAmount : ViewBag.TotalAmount + 9.90m).ToString("F2"))
+                        </strong>
+                    </div>
+                    
+                    @if (ViewBag.TotalAmount < 150)
+                    {
+                        <div class="free-shipping-notice">
+                            <i class="fas fa-truck me-2 text-warning"></i>
+                            <small>₺@((150 - ViewBag.TotalAmount).ToString("F2")) daha ekleyin, ücretsiz kargo kazanın!</small>
+                        </div>
+                    }
+                    
+                    <a asp-action="Checkout" class="btn btn-primary-custom w-100 btn-lg mt-3">
+                        <i class="fas fa-credit-card me-2"></i>
+                        Siparişi Tamamla
+                    </a>
+                    <a asp-controller="Books" asp-action="Index" class="btn btn-outline-primary w-100 mt-2">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Alışverişe Devam Et
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="empty-cart">
+        <div class="text-center py-5">
+            <div class="empty-cart-icon mb-4">
+                <i class="fas fa-shopping-cart fa-4x text-muted"></i>
+            </div>
+            <h3 class="text-muted mb-3">Sepetiniz Boş</h3>
+            <p class="text-muted mb-4">Henüz sepetinize ürün eklemediniz. Hemen alışverişe başlayın!</p>
+            <a asp-controller="Books" asp-action="Index" class="btn btn-primary-custom btn-lg">
+                <i class="fas fa-book me-2"></i>
+                Kitapları İncele
+            </a>
+        </div>
+    </div>
+}
+
+<style>
+.cart-item-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    transition: box-shadow 0.3s ease;
+}
+
+.cart-item-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.cart-item-image {
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.cart-item-placeholder {
+    width: 100%;
+    height: 80px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    width: 120px;
+}
+
+.quantity-btn {
+    background: #f8f9fa;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.quantity-btn:hover {
+    background: #e9ecef;
+}
+
+.quantity-input {
+    border: none;
+    text-align: center;
+    width: 50px;
+    padding: 8px 4px;
+    background: white;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.total-row {
+    font-size: 1.1rem;
+}
+
+.free-shipping-notice {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.empty-cart {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sticky-top {
+    top: 20px;
+}
+
+
+</style>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Quantity controls with AJAX
+            $('.quantity-plus').off('click').on('click', function(e) {
+                e.preventDefault();
+                var $input = $(this).siblings('.quantity-input');
+                var $cartItem = $(this).closest('.cart-item-card');
+                var bookId = $cartItem.find('.remove-item-btn').data('book-id');
+                var currentVal = parseInt($input.val()) || 1;
+                var newVal = currentVal + 1;
+
+                updateQuantity(bookId, newVal, $cartItem);
+            });
+
+            $('.quantity-minus').off('click').on('click', function(e) {
+                e.preventDefault();
+                var $input = $(this).siblings('.quantity-input');
+                var $cartItem = $(this).closest('.cart-item-card');
+                var bookId = $cartItem.find('.remove-item-btn').data('book-id');
+                var currentVal = parseInt($input.val()) || 1;
+
+                if (currentVal > 1) {
+                    var newVal = currentVal - 1;
+                    updateQuantity(bookId, newVal, $cartItem);
+                }
+            });
+
+            function updateQuantity(bookId, quantity, $cartItem) {
+                $.ajax({
+                    url: '@Url.Action("UpdateQuantity", "Cart")',
+                    type: 'POST',
+                    data: { bookId: bookId, quantity: quantity },
+                    success: function(response) {
+                        if (response.success) {
+                            // Update input value
+                            $cartItem.find('.quantity-input').val(quantity);
+
+                            // Update item total price
+                            var price = parseFloat($cartItem.find('.text-success strong').text().replace('₺', ''));
+                            var newTotal = (price * quantity).toFixed(2);
+                            $cartItem.find('.item-total strong').text('₺' + newTotal);
+
+                            // Update cart summary
+                            updateCartSummary();
+
+                            // Update cart count
+                            updateCartCount();
+                        } else {
+                            alert('Miktar güncellenirken hata oluştu.');
+                        }
+                    },
+                    error: function() {
+                        alert('Miktar güncellenirken hata oluştu.');
+                    }
+                });
+            }
+
+            function updateCartSummary() {
+                var total = 0;
+                $('.item-total strong').each(function() {
+                    var itemTotal = parseFloat($(this).text().replace('₺', ''));
+                    total += itemTotal;
+                });
+
+                // Update subtotal
+                $('.summary-row:first span:last').text('₺' + total.toFixed(2));
+
+                // Update shipping info
+                var shippingCost = total >= 150 ? 0 : 9.90;
+                var finalTotal = total + shippingCost;
+
+                if (total >= 150) {
+                    $('.summary-row:nth-child(2) span:last small').text('Ücretsiz');
+                } else {
+                    $('.summary-row:nth-child(2) span:last small').text('₺9.90');
+                }
+
+                // Update final total
+                $('.total-row strong:last').text('₺' + finalTotal.toFixed(2));
+
+                // Update free shipping notice
+                if (total < 150) {
+                    var remaining = (150 - total).toFixed(2);
+                    $('.free-shipping-notice small').text('₺' + remaining + ' daha ekleyin, ücretsiz kargo kazanın!');
+                }
+            }
+
+            // Update cart count after any cart operation
+            updateCartCount();
+
+            // Remove item functionality
+            $('.remove-item-btn').on('click', function() {
+                var bookId = $(this).data('book-id');
+                var $cartItem = $(this).closest('.cart-item-card');
+
+                removeItem(bookId, $cartItem);
+            });
+
+            function removeItem(bookId, $cartItem) {
+                $.ajax({
+                    url: '@Url.Action("RemoveFromCart", "Cart")',
+                    type: 'POST',
+                    data: { bookId: bookId },
+                    success: function(response) {
+                        if (response.success) {
+                            // Remove item from DOM
+                            $cartItem.fadeOut(300, function() {
+                                $(this).remove();
+
+                                // Check if cart is empty
+                                if ($('.cart-item-card').length === 0) {
+                                    location.reload(); // Reload to show empty cart
+                                } else {
+                                    // Update cart summary
+                                    updateCartSummary();
+
+                                    // Update cart count
+                                    updateCartCount();
+                                }
+                            });
+                        } else {
+                            alert('Ürün kaldırılırken hata oluştu.');
+                        }
+                    },
+                    error: function() {
+                        alert('Ürün kaldırılırken hata oluştu.');
+                    }
+                });
+            }
+        });
+    </script>
+}

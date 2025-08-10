@@ -1,0 +1,78 @@
+@{
+    ViewData["Title"] = "Sipariş Yönetimi";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1>@ViewBag.Title</h1>
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Success"]
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["Error"]
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Sipariş ID</th>
+                                    <th>Kullanıcı</th>
+                                    <th>Tarih</th>
+                                    <th>Toplam Tutar</th>
+                                    <th>Durum</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.Orders != null)
+                                {
+                                    @foreach (var order in ViewBag.Orders)
+                                    {
+                                        <tr>
+                                            <td>@order.Id</td>
+                                            <td>@(order.User?.Username ?? "Bilinmeyen Kullanıcı")</td>
+                                            <td>@order.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                            <td>₺@order.TotalAmount.ToString("F2")</td>
+                                            <td>
+                                                <span class="badge bg-@(order.Status == "Tamamlandı" ? "success" : order.Status == "Beklemede" ? "warning" : "secondary")">
+                                                    @order.Status
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("OrderDetails", "Admin", new { id = order.Id })" class="btn btn-sm btn-info">
+                                                    <i class="fas fa-eye"></i> Detay
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center">Henüz sipariş bulunmuyor.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

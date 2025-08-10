@@ -1,0 +1,31 @@
+@{
+    ViewBag.Title = "Kategoriler";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.Title</h1>
+</div>
+
+<div class="row mt-4">
+    @if (ViewBag.Categories != null)
+    {
+        foreach (var category in ViewBag.Categories)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@category.Name</h5>
+                        <p class="card-text">@category.Description</p>
+                        <a asp-action="Details" asp-route-id="@category.Id" class="btn btn-primary">Kitapları Görüntüle</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <p class="text-center">Henüz kategori bulunmamaktadır.</p>
+        </div>
+    }
+</div> 

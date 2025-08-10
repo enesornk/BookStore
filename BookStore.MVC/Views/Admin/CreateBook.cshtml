@@ -1,0 +1,93 @@
+@model BookStore.MVC.Models.BookViewModel
+@{
+    ViewData["Title"] = "Yeni Kitap Ekle";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form asp-action="CreateBook" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label">Kitap Başlığı</label>
+                            <input asp-for="Title" class="form-control" required />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Author" class="form-label">Yazar</label>
+                            <input asp-for="Author" class="form-control" required />
+                            <span asp-validation-for="Author" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">Açıklama</label>
+                            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Price" class="form-label">Fiyat</label>
+                            <input asp-for="Price" type="number" step="0.01" class="form-control" required />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CategoryId" class="form-label">Kategori</label>
+                            <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select" required>
+                                <option value="">Kategori Seçin</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            <small class="form-text text-muted">Lütfen bir kategori seçin.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="BookImage" class="form-label">Kitap Resmi</label>
+                            <input asp-for="BookImage" type="file" class="form-control" accept="image/*" />
+                            <small class="form-text text-muted">PNG, JPG, JPEG dosyaları kabul edilir. Maksimum 5MB.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ImageUrl" class="form-label">Resim URL (Alternatif)</label>
+                            <input asp-for="ImageUrl" class="form-control" placeholder="https://example.com/image.jpg" />
+                            <small class="form-text text-muted">Dosya yüklemek yerine URL de kullanabilirsiniz.</small>
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Kaydet
+                            </button>
+                            <a href="@Url.Action("Books", "Admin")" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Geri
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Yardım</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Kitap Başlığı:</strong> Kitabın tam adını girin</p>
+                    <p><strong>Yazar:</strong> Kitabın yazarının adını girin</p>
+                    <p><strong>Açıklama:</strong> Kitap hakkında kısa bilgi</p>
+                    <p><strong>Fiyat:</strong> Türk Lirası cinsinden fiyat</p>
+                    <p><strong>Kategori:</strong> Kitabın ait olduğu kategori</p>
+                    <p><strong>Resim:</strong> Kitap kapağı resmi yükleyin veya URL girin</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

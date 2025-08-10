@@ -1,0 +1,40 @@
+@{
+    ViewBag.Title = "Bize Ulaşın";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.Title</h1>
+    <p class="lead">Bizimle iletişime geçin</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h3>İletişim Bilgileri</h3>
+        <div class="card">
+            <div class="card-body">
+                <p><strong>Email:</strong> @ViewBag.Email</p>
+                <p><strong>Telefon:</strong> @ViewBag.Phone</p>
+                <p><strong>Adres:</strong> @ViewBag.Address</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <h3>Mesaj Gönder</h3>
+        <form>
+            <div class="mb-3">
+                <label for="name" class="form-label">Ad Soyad</label>
+                <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Mesaj</label>
+                <textarea class="form-control" id="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Gönder</button>
+        </form>
+    </div>
+</div> 

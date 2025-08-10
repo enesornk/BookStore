@@ -1,0 +1,63 @@
+@{
+    ViewBag.Title = ViewBag.Category?.Name ?? "Kategori";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.Category?.Name</h1>
+    <p class="lead">@ViewBag.Category?.Description</p>
+</div>
+
+<div class="row mt-4">
+    @if (ViewBag.Books != null && ViewBag.Books.Count > 0)
+    {
+        foreach (var book in ViewBag.Books)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(book.ImageUrl))
+                    {
+                        <img src="@book.ImageUrl" class="card-img-top book-cover-image" alt="@book.Title">
+                    }
+                    else
+                    {
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <span class="text-muted">📚</span>
+                        </div>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@book.Author</h6>
+                        <p class="card-text">@(book.Description?.Length > 100 ? book.Description.Substring(0, 100) + "..." : book.Description)</p>
+                        <p class="card-text"><strong>@book.Price.ToString("C")</strong></p>
+                        <div class="d-flex justify-content-between">
+                            <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="btn btn-primary btn-sm">Detay</a>
+                            <div>
+                                @if (Context.Session.GetString("UserId") != null)
+                                {
+                                    <form asp-controller="Favorites" asp-action="AddToFavorites" method="post" style="display: inline;">
+                                        <input type="hidden" name="bookId" value="@book.Id" />
+                                        <button type="submit" class="btn btn-outline-warning btn-sm">❤️</button>
+                                    </form>
+                                }
+                                <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display: inline;">
+                                    <input type="hidden" name="bookId" value="@book.Id" />
+                                    <button type="submit" class="btn btn-success btn-sm">Sepete Ekle</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <p class="text-center">Bu kategoride henüz kitap bulunmamaktadır.</p>
+        </div>
+    }
+</div>
+
+<div class="mt-4">
+    <a asp-controller="Categories" asp-action="Index" class="btn btn-outline-primary">Tüm Kategorilere Dön</a>
+</div> 

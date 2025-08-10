@@ -1,0 +1,70 @@
+@{
+    ViewBag.Title = ViewBag.Book?.Title ?? "Kitap Detayı";
+}
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        @if (!string.IsNullOrEmpty(ViewBag.Book?.ImageUrl))
+        {
+            <img src="@ViewBag.Book.ImageUrl" class="img-fluid rounded" alt="@ViewBag.Book.Title" style="max-height: 400px; object-fit: cover;">
+        }
+        else
+        {
+            <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height: 400px;">
+                <span class="text-muted" style="font-size: 4rem;">📚</span>
+            </div>
+        }
+    </div>
+    
+    <div class="col-md-8">
+        <h1>@ViewBag.Book?.Title</h1>
+        <h4 class="text-muted">@ViewBag.Book?.Author</h4>
+        
+        <div class="mt-4">
+            <h5>Kitap Açıklaması</h5>
+            <p>@ViewBag.Book?.Description</p>
+        </div>
+        
+        <div class="mt-4">
+            <h5>Kitap Bilgileri</h5>
+            <ul class="list-unstyled">
+                <li><strong>Kategori:</strong> @ViewBag.Book?.Category?.Name</li>
+                <li><strong>Fiyat:</strong> @ViewBag.Book?.Price.ToString("C")</li>
+                <li><strong>Eklenme Tarihi:</strong> @ViewBag.Book?.CreatedDate.ToString("dd.MM.yyyy")</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8 offset-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Satın Al</h5>
+                <p class="card-text">
+                    <strong>Fiyat: @ViewBag.Book?.Price.ToString("C")</strong>
+                </p>
+                <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                    <input type="hidden" name="bookId" value="@ViewBag.Book?.Id" />
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Adet</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Sepete Ekle</button>
+                </form>
+                
+                @if (Context.Session.GetString("UserId") != null)
+                {
+                    <form asp-controller="Favorites" asp-action="AddToFavorites" method="post" class="mt-2">
+                        <input type="hidden" name="bookId" value="@ViewBag.Book?.Id" />
+                        <button type="submit" class="btn btn-outline-warning w-100">❤️ Favorilere Ekle</button>
+                    </form>
+                }
+                
+                <div class="mt-3">
+                    <a asp-controller="Books" asp-action="Index" class="btn btn-outline-primary w-100">Tüm Kitaplara Dön</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

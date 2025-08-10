@@ -1,0 +1,117 @@
+@{
+    ViewBag.Title = "Tüm Kitaplar";
+}
+
+<div class="text-center py-4">
+    <h1 class="mb-2">@ViewBag.Title</h1>
+    <p class="text-muted">En kaliteli kitapları keşfedin</p>
+</div>
+
+<div class="row">
+    @if (ViewBag.Books != null)
+    {
+        foreach (var book in ViewBag.Books)
+        {
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
+                <div class="product-card">
+                    <div class="product-image">
+                        @if (!string.IsNullOrEmpty(book.ImageUrl))
+                        {
+                            <img src="@book.ImageUrl" alt="@book.Title" />
+                        }
+                        else
+                        {
+                            <div class="d-flex align-items-center justify-content-center bg-light" style="height: 280px;">
+                                <i class="fas fa-book fa-3x text-muted"></i>
+                            </div>
+                        }
+                        
+                        <div class="product-badges">
+                            <span class="product-badge new">Yeni</span>
+                        </div>
+                        
+                        <div class="product-actions">
+                            @if (Context.Session.GetString("UserId") != null)
+                            {
+                                <form asp-controller="Favorites" asp-action="AddToFavorites" method="post">
+                                    <input type="hidden" name="bookId" value="@book.Id" />
+                                    <button type="submit" class="action-btn btn-favorite" title="Favorilere Ekle">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                </form>
+                            }
+                            <button class="action-btn" onclick="quickView(@book.Id)" title="Hızlı Görünüm">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" onclick="addToCompare(@book.Id)" title="Karşılaştır">
+                                <i class="fas fa-random"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-content">
+                        <div class="product-category">@book.Category?.Name</div>
+                        <h3 class="product-title">
+                            <a asp-action="Details" asp-route-id="@book.Id">@book.Title</a>
+                        </h3>
+                        <div class="product-author">@book.Author</div>
+                        
+                        <div class="product-price">
+                            <span class="current-price">₺@book.Price.ToString("F2")</span>
+                            @* Örnek indirim gösterimi için *@
+                            @if (book.Price > 30)
+                            {
+                                <span class="original-price">₺@((book.Price * 1.2m).ToString("F2"))</span>
+                                <span class="discount">-17%</span>
+                            }
+                        </div>
+                        
+                        <div class="product-buttons">
+                            <form asp-controller="Cart" asp-action="AddToCart" method="post" style="flex: 1;">
+                                <input type="hidden" name="bookId" value="@book.Id" />
+                                <button type="submit" class="btn-primary-custom w-100 btn-add-cart">
+                                    <i class="fas fa-shopping-cart me-1"></i>
+                                    Sepete Ekle
+                                </button>
+                            </form>
+                            <a asp-action="Details" asp-route-id="@book.Id" class="btn-outline-custom ms-2" title="Detaylar">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <div class="text-center py-5">
+                <i class="fas fa-book fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">Henüz kitap bulunmamaktadır.</h4>
+                <p class="text-muted">Yakında yeni kitaplar eklenecek.</p>
+            </div>
+        </div>
+    }
+</div>
+
+@if (ViewBag.Books != null && ((IEnumerable<dynamic>)ViewBag.Books).Any())
+{
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <button class="btn btn-outline-primary btn-lg" onclick="loadMoreBooks()">
+                <i class="fas fa-plus me-2"></i>
+                Daha Fazla Kitap Yükle
+            </button>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function loadMoreBooks() {
+            // Daha fazla kitap yükleme fonksiyonu
+            showToast('Daha fazla kitap yükleme özelliği yakında!', 'info');
+        }
+    </script>
+} 
